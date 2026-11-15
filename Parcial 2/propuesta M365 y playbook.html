@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermercados La Preferida - Propuesta M365 y Playbook</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        corporate: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-corporate-dark text-slate-800 dark:text-slate-100 transition-colors duration-200 flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white dark:bg-corporate-card border-b border-slate-200 dark:border-corporate-border sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-600 text-white p-2 rounded-xl shadow-md flex items-center justify-center">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight tracking-tight">Supermercados La Preferida</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Caso CI-CS-2026-02 | Comité Directivo & TI</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="hidden md:flex space-x-1 bg-slate-100 dark:bg-slate-900/50 p-1 rounded-xl border border-slate-200 dark:border-corporate-border">
+                <button onclick="switchTab('continuity')" id="nav-continuity" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-brand-600 dark:text-brand-400 bg-white dark:bg-corporate-card shadow-sm">
+                    <i class="fa-solid fa-envelope-circle-check mr-2"></i>Propuesta M365 Down
+                </button>
+                <button onclick="switchTab('playbook')" id="nav-playbook" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400">
+                    <i class="fa-solid fa-list-check mr-2"></i>Playbook Interactivo
+                </button>
+            </nav>
+
+            <!-- Right Controls: Theme Toggle & Mobile Menu -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Cambiar Tema">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-corporate-card border-b border-slate-200 dark:border-corporate-border px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchTab('continuity'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i class="fa-solid fa-envelope-circle-check mr-2 text-brand-600"></i>Propuesta M365 Down
+            </button>
+            <button onclick="switchTab('playbook'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <i class="fa-solid fa-list-check mr-2 text-brand-600"></i>Playbook Interactivo
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-y-auto">
+
+        <!-- TAB 3: M365 CONTINUITY PROPOSAL -->
+        <section id="tab-continuity" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight">Propuesta de Continuidad de Correo (M365 Down)</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Arquitectura de respaldo, relay y canales fuera de banda para Supermercados La Preferida</p>
+                </div>
+                <button onclick="switchTab('playbook')" class="bg-brand-600 hover:bg-brand-700 text-white font-medium px-4 py-2 rounded-xl text-xs flex items-center shadow-sm">
+                    <i class="fa-solid fa-play mr-1.5"></i> Iniciar Playbook M365 Down
+                </button>
+            </div>
+
+            <!-- Architecture Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1: Servidor MX de Contingencia -->
+                <div class="bg-white dark:bg-corporate-card p-6 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl w-fit mb-3">
+                            <i class="fa-solid fa-server text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-base mb-2">1. Servidor MX de Contingencia On-Premise</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Despliegue de un servidor de correo SMTP secundario en el centro de datos de Calidonia con prioridad MX superior (backup MX). En caso de caída de Exchange Online, los correos externos son retenidos y enrutados de manera segura.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-corporate-border text-xs">
+                        <span class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Beneficio Clave:</span>
+                        Evita el rebote de correos de proveedores críticos durante caídas prolongadas de Microsoft 365.
+                    </div>
+                </div>
+
+                <!-- Card 2: Pasarelas de Relay de Respaldo -->
+                <div class="bg-white dark:bg-corporate-card p-6 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="p-3 bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400 rounded-xl w-fit mb-3">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-base mb-2">2. Pasarelas de Relay en la Nube (Spam Titan / Proofpoint)</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Servicio perimetral de correo externo que actúa como proxy y buzón de emergencia web (Webmail de contingencia). Permite al personal administrativo acceder a sus correos recientes y enviar mensajes críticos cuando M365 no esté disponible.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-corporate-border text-xs">
+                        <span class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Beneficio Clave:</span>
+                        Acceso web independiente a la mensajería sin depender de la infraestructura cloud principal de Microsoft.
+                    </div>
+                </div>
+
+                <!-- Card 3: Canales Fuera de Banda -->
+                <div class="bg-white dark:bg-corporate-card p-6 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-xl w-fit mb-3">
+                            <i class="fa-solid fa-headset text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-base mb-2">3. Telefonía IP y Mensajería Cifrada Fuera de Banda</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Activación inmediata de la Red de Telefonía IP interna entre las 14 sucursales y los CEDIS Tocumen/Transístmica, complementada con canales oficiales cifrados para el Comité de Crisis y jefaturas de tienda.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-corporate-border text-xs">
+                        <span class="font-semibold text-slate-700 dark:text-slate-300 block mb-1">Beneficio Clave:</span>
+                        Coordinación operativa inmediata de inventarios y cajas POS sin depender de internet ni correo electrónico.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="bg-white dark:bg-corporate-card rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm p-6 space-y-4">
+                <h3 class="font-bold text-base">Comparativa: Operación Normal vs. Contingencia M365 Down</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200 dark:border-corporate-border text-xs font-semibold text-slate-500 uppercase">
+                                <th class="py-3 px-4">Componente</th>
+                                <th class="py-3 px-4">Operación Normal (M365 Activo)</th>
+                                <th class="py-3 px-4">Escenario de Contingencia (M365 Caído)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 dark:divide-corporate-border">
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Autenticación</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Microsoft Entra ID sincronizado con Active Directory</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Credenciales locales de respaldo y acceso web de emergencia</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Recepción de Proveedores</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Exchange Online directo a buzones corporativos</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Almacenamiento temporal en servidor MX de respaldo / Relay</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Coordinación de Sucursales</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Correo corporativo y SAP ERP centralizado</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Telefonía IP, servidores POS locales de caché y mensajería fuera de banda</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 font-medium">Toma de Decisiones</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Gerencia General y Jefaturas de TI</td>
+                                <td class="py-3 px-4 text-slate-600 dark:text-slate-300">Activación inmediata del Comité de Crisis presencial / remoto cifrado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: INTERACTIVE PLAYBOOK -->
+        <section id="tab-playbook" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight">Playbook Interactivo de Gestión de Incidentes</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Herramienta guiada para incidentes críticos (M365 Down, Fuerza Bruta, Malware POS)</p>
+                </div>
+                <!-- Timer Widget -->
+                <div class="flex items-center space-x-3 bg-white dark:bg-corporate-card px-4 py-2 rounded-xl border border-slate-200 dark:border-corporate-border shadow-sm">
+                    <div class="text-brand-600 dark:text-brand-400 text-lg">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-semibold text-slate-400 block">Cronómetro de Incidente</span>
+                        <span id="timer-display" class="font-mono font-bold text-base">00:00:00</span>
+                    </div>
+                    <div class="flex space-x-1 pl-2 border-l border-slate-200 dark:border-corporate-border">
+                        <button onclick="startTimer()" class="p-1.5 bg-brand-600 text-white rounded-lg hover:bg-brand-700 text-xs" title="Iniciar"><i class="fa-solid fa-play"></i></button>
+                        <button onclick="pauseTimer()" class="p-1.5 bg-amber-500 text-white rounded-lg hover:bg-amber-600 text-xs" title="Pausar"><i class="fa-solid fa-pause"></i></button>
+                        <button onclick="resetTimer()" class="p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 text-xs" title="Reiniciar"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playbook Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column: Phases Navigation -->
+                <div class="space-y-3">
+                    <div class="bg-white dark:bg-corporate-card p-4 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm space-y-2">
+                        <h3 class="font-bold text-sm text-slate-700 dark:text-slate-300 mb-3 px-2">Fases del Playbook NIST / SANS</h3>
+                        
+                        <button onclick="switchPhase(1)" id="phase-btn-1" class="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900/30">
+                            <span class="flex items-center"><span class="w-6 h-6 rounded-full bg-brand-600 text-white text-xs flex items-center justify-center mr-2.5 font-bold">1</span> Detección & Triage</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <button onclick="switchPhase(2)" id="phase-btn-2" class="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900">
+                            <span class="flex items-center"><span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center mr-2.5 font-bold">2</span> Comité de Crisis</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <button onclick="switchPhase(3)" id="phase-btn-3" class="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900">
+                            <span class="flex items-center"><span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center mr-2.5 font-bold">3</span> Contención</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <button onclick="switchPhase(4)" id="phase-btn-4" class="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900">
+                            <span class="flex items-center"><span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center mr-2.5 font-bold">4</span> Erradicación & Recuperación</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <button onclick="switchPhase(5)" id="phase-btn-5" class="w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900">
+                            <span class="flex items-center"><span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center mr-2.5 font-bold">5</span> Análisis Post-Incidente</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Export Report Action -->
+                    <div class="bg-white dark:bg-corporate-card p-4 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm space-y-3">
+                        <h4 class="font-semibold text-xs uppercase tracking-wider text-slate-400">Reporte Ejecutivo</h4>
+                        <button onclick="exportReport()" class="w-full bg-slate-900 hover:bg-slate-800 dark:bg-brand-600 dark:hover:bg-brand-700 text-white font-medium py-2.5 rounded-xl text-xs transition-all flex items-center justify-center shadow-md">
+                            <i class="fa-solid fa-file-arrow-down mr-2"></i> Exportar Reporte de Incidente (TXT)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Phase Content & Checklists -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Phase Content Container -->
+                    <div class="bg-white dark:bg-corporate-card p-6 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-corporate-border pb-4">
+                            <div>
+                                <span id="phase-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">Fase 1 de 5</span>
+                                <h3 id="phase-title" class="text-xl font-bold mt-2">Detección, Alerta y Registro (Triage Inicial)</h3>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400">Progreso de Fase</span>
+                                <div class="text-lg font-bold text-brand-600 dark:text-brand-400" id="phase-progress-text">0%</div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p id="phase-desc" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Identificación de la anomalía mediante alertas automatizadas (ej. reintentos de fuerza bruta como el 5 de julio de 2026 o indisponibilidad de M365) y registro inicial en la bitácora de TI.
+                        </p>
+
+                        <!-- Checklist Items -->
+                        <div class="space-y-3">
+                            <h4 class="font-semibold text-xs uppercase tracking-wider text-slate-400">Tareas de Control y Verificación</h4>
+                            <div id="checklist-container" class="space-y-2.5">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Audit Notes & Actions Log -->
+                        <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-corporate-border">
+                            <h4 class="font-semibold text-xs uppercase tracking-wider text-slate-400">Bitácora de Notas y Acciones Tomadas</h4>
+                            <textarea id="phase-notes" placeholder="Escriba aquí las observaciones técnicas, nombres de servidores afectados, o decisiones de los administradores..." class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-corporate-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 h-24 custom-scrollbar"></textarea>
+                            <button onclick="savePhaseNotes()" class="bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white text-xs font-medium px-4 py-2 rounded-xl transition-all">
+                                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Nota en Bitácora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Custom Modal for Notifications / Messages (No alert() used) -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-corporate-card max-w-md w-full p-6 rounded-2xl border border-slate-200 dark:border-corporate-border shadow-2xl space-y-4">
+            <div class="flex items-center space-x-3">
+                <div id="modal-icon-bg" class="p-3 bg-brand-50 text-brand-600 rounded-xl">
+                    <i id="modal-icon" class="fa-solid fa-circle-check text-xl"></i>
+                </div>
+                <div>
+                    <h3 id="modal-title" class="font-bold text-lg">Notificación</h3>
+                    <p class="text-xs text-slate-500">Supermercados La Preferida</p>
+                </div>
+            </div>
+            <p id="modal-message" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal()" class="bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2 rounded-xl text-xs transition-all shadow-md">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-corporate-card border-t border-slate-200 dark:border-corporate-border py-4 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© 2026 Supermercados La Preferida, S.A. — Caso CI-CS-2026-02 (UTP Tópicos Especiales).</p>
+            <p>Plataforma Interactiva de Ciberseguridad y Continuidad.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- State Management ---
+        let currentTab = 'continuity';
+        let currentPhase = 1;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        // Playbook Phases Data
+        const playbookPhases = {
+            1: {
+                title: "Detección, Alerta y Registro (Triage Inicial)",
+                badge: "Fase 1 de 5",
+                desc: "Identificación de la anomalía mediante alertas automatizadas (ej. reintentos de fuerza bruta como el 5 de julio de 2026 o caída de M365) y registro inicial en la bitácora de TI.",
+                tasks: [
+                    { id: 101, text: "Recibir y registrar la alerta en el sistema de tickets de TI con fecha y hora exacta." },
+                    { id: 102, text: "Verificar si la alerta corresponde a un falso positivo o a un evento real de seguridad." },
+                    { id: 103, text: "Identificar los sistemas, cuentas de usuario o servidores involucrados (ej. SAP ERP o M365)." },
+                    { id: 104, text: "Evaluar preliminarmente si existe interrupción operativa en sucursales o cajas POS." }
+                ]
+            },
+            2: {
+                title: "Evaluación de Severidad y Activación del Comité de Crisis",
+                badge: "Fase 2 de 5",
+                desc: "Clasificación del impacto operativo y financiero (pérdida estimada en $1,500/min en horas pico) y convocatoria formal de los directivos.",
+                tasks: [
+                    { id: 201, text: "Clasificar la severidad del incidente (Crítico si afecta ventas, cobros o correo corporativo)." },
+                    { id: 202, text: "Contactar al Director de Tecnología (CIO) y notificar al Gerente General." },
+                    { id: 203, text: "Activar el Comité de Crisis mediante canales fuera de banda (telefonía IP o mensajería cifrada)." },
+                    { id: 204, text: "Determinar la necesidad de involucrar a proveedores externos (RetailSoft, Conecta Istmo, Microsoft)." }
+                ]
+            },
+            3: {
+                title: "Contención (Aislamiento y Protección Operativa)",
+                badge: "Fase 3 de 5",
+                desc: "Acciones rápidas para detener la propagación del incidente sin interrumpir la operación de contingencia de las cajas POS locales.",
+                tasks: [
+                    { id: 301, text: "Deshabilitar cuentas de usuario comprometidas en Microsoft Entra ID / Active Directory." },
+                    { id: 302, text: "Revocar sesiones activas de VPN de proveedores si se sospecha compromiso de terceros." },
+                    { id: 303, text: "Aislar redes o servidores afectados manteniendo operativas las cajas POS de contingencia (caché local)." },
+                    { id: 304, text: "Activar el servidor MX de contingencia o pasarela de relay si el servicio M365 está caído." }
+                ]
+            },
+            4: {
+                title: "Erradicación y Recuperación (Restauración de Sistemas)",
+                badge: "Fase 4 de 5",
+                desc: "Eliminación de vectores de amenaza, restauración de respaldos y validación de la integridad operativa de SAP ERP y M365.",
+                tasks: [
+                    { id: 401, text: "Eliminar malware, archivos maliciosos o credenciales expuestas en los sistemas." },
+                    { id: 402, text: "Proceder con la restauración de bases de datos o servicios utilizando respaldos Veeam limpios." },
+                    { id: 403, text: "Validar la inmutabilidad y verificar la integridad de las copias replicadas en Azure." },
+                    { id: 404, text: "Restablecer la conectividad central y sincronizar precios e inventarios con las 14 sucursales." }
+                ]
+            },
+            5: {
+                title: "Análisis Post-Incidente (Preservación de Evidencia y Lecciones)",
+                badge: "Fase 5 de 5",
+                desc: "Cierre formal del incidente con preservación de evidencia digital, cadena de custodia y reporte a la Junta Directiva.",
+                tasks: [
+                    { id: 501, text: "Asegurar copias forenses de logs, memoria RAM y discos afectados manteniendo cadena de custodia." },
+                    { id: 502, text: "Redactar el informe post-incidente con cronología detallada (similar al análisis del 5 de julio)." },
+                    { id: 503, text: "Cuantificar el impacto financiero real y horas de interrupción operativa." },
+                    { id: 504, text: "Presentar hallazgos y acciones correctivas ante la Junta Directiva para prevenir recurrencia." }
+                ]
+            }
+        };
+
+        // Track completed checklist items and notes per phase
+        let completedTasks = {};
+        let phaseNotes = {};
+
+        // --- Initialization ---
+        window.onload = function() {
+            renderPlayphase();
+            checkThemeOnLoad();
+            const initialTab = location.hash.replace('#', '');
+            if (['continuity','playbook'].includes(initialTab)) switchTab(initialTab);
+        };
+
+        // --- Navigation Tabs Switcher ---
+        function switchTab(tabId) {
+            currentTab = tabId;
+            const tabs = ['continuity', 'playbook'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                if (t === tabId) {
+                    el.classList.remove('hidden');
+                    if (navBtn) navBtn.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all text-brand-600 dark:text-brand-400 bg-white dark:bg-corporate-card shadow-sm";
+                } else {
+                    el.classList.add('hidden');
+                    if (navBtn) navBtn.className = "px-4 py-2 rounded-lg text-sm font-medium transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Theme Toggle ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = "fa-solid fa-moon";
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-sun";
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function checkThemeOnLoad() {
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-sun";
+            }
+        }
+
+        // --- Playbook Functions ---
+        function switchPhase(phaseNum) {
+            currentPhase = phaseNum;
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById(`phase-btn-${i}`);
+                if (i === phaseNum) {
+                    btn.className = "w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-900/30";
+                    btn.querySelector('span span').className = "w-6 h-6 rounded-full bg-brand-600 text-white text-xs flex items-center justify-center mr-2.5 font-bold";
+                } else {
+                    btn.className = "w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900";
+                    btn.querySelector('span span').className = "w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center mr-2.5 font-bold";
+                }
+            }
+            renderPlayphase();
+        }
+
+        function renderPlayphase() {
+            const phase = playbookPhases[currentPhase];
+            document.getElementById('phase-badge').innerText = phase.badge;
+            document.getElementById('phase-title').innerText = phase.title;
+            document.getElementById('phase-desc').innerText = phase.desc;
+
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = '';
+
+            phase.tasks.forEach(task => {
+                const isChecked = completedTasks[task.id] || false;
+                const div = document.createElement('label');
+                div.className = `flex items-start space-x-3 p-3 rounded-xl border transition-all cursor-pointer ${isChecked ? 'bg-brand-50/50 dark:bg-brand-900/10 border-brand-200 dark:border-brand-900/30' : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-corporate-border hover:border-slate-300'}`;
+                div.innerHTML = `
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleTask(${task.id})" class="mt-1 w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
+                    <span class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : ''}">${task.text}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            // Load saved notes for this phase
+            document.getElementById('phase-notes').value = phaseNotes[currentPhase] || '';
+            updatePhaseProgress();
+        }
+
+        function toggleTask(taskId) {
+            completedTasks[taskId] = !completedTasks[taskId];
+            renderPlayphase();
+        }
+
+        function updatePhaseProgress() {
+            const phase = playbookPhases[currentPhase];
+            const total = phase.tasks.length;
+            const completed = phase.tasks.filter(t => completedTasks[t.id]).length;
+            const percent = Math.round((completed / total) * 100);
+            document.getElementById('phase-progress-text').innerText = `${percent}%`;
+        }
+
+        function savePhaseNotes() {
+            const notes = document.getElementById('phase-notes').value;
+            phaseNotes[currentPhase] = notes;
+            showModal("Nota Guardada", `Se han guardado exitosamente las observaciones para la <strong>Fase ${currentPhase}</strong>.`);
+        }
+
+        // --- Timer Functions ---
+        function startTimer() {
+            if (!isTimerRunning) {
+                isTimerRunning = true;
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(timerSeconds % 60).padStart(2, '0');
+            document.getElementById('timer-display').innerText = `${hrs}:${mins}:${secs}`;
+        }
+
+        // --- Modal Helper ---
+        function showModal(title, message, isSuccess = true) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerHTML = message;
+            const iconBg = document.getElementById('modal-icon-bg');
+            const icon = document.getElementById('modal-icon');
+            if (isSuccess) {
+                iconBg.className = "p-3 bg-brand-50 text-brand-600 rounded-xl";
+                icon.className = "fa-solid fa-circle-check text-xl";
+            } else {
+                iconBg.className = "p-3 bg-red-50 text-red-600 rounded-xl";
+                icon.className = "fa-solid fa-triangle-exclamation text-xl";
+            }
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        // --- Export Report ---
+        function exportReport() {
+            let reportContent = `REPORTE EJECUTIVO DE INCIDENTE Y CIBERSEGURIDAD\n`;
+            reportContent += `SUPERMERCADOS LA PREFERIDA, S.A. (Caso CI-CS-2026-02)\n`;
+            reportContent += `Fecha de Generación: ${new Date().toLocaleString()}\n`;
+            reportContent += `Tiempo Transcurrido en Playbook: ${document.getElementById('timer-display').innerText}\n\n`;
+
+            reportContent += `\n=== BITÁCORA DE NOTAS POR FASE ===\n`;
+            for (let i = 1; i <= 5; i++) {
+                reportContent += `Fase ${i} (${playbookPhases[i].title}):\n`;
+                reportContent += `Notas: ${phaseNotes[i] || 'Sin notas registradas.'}\n\n`;
+            }
+
+            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Reporte_Incidente_LaPreferida_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showModal("Reporte Exportado", "El reporte de gestión del incidente ha sido descargado en formato de texto corporativo.");
+        }
+    </script>
+</body>
+</html>
